@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Photo viewer application that fetches photos from Instagram",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/herisho/pickME"
+  },
   "scripts": {},
   "author": "kevin@brounie.com",
   "license": "ISC",
@@ -10,7 +14,8 @@
     "express": "^4.16.4",
     "instagram-node": "^0.5.8",
     "path": "^0.12.7",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "moment": "^2.22.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"

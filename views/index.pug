@@ -15,5 +15,12 @@ block content
                 span Likes:
                   | #{picture.likes.count}
               .comments
-                span Likes:
+                span Comments:
                   | #{picture.comments.count}
+              .caption
+                span Caption:
+                  | #{picture.caption.text}
+              .caption
+                span Created At:
+                  | #{moment.unix(picture.created_time).format('MM/DD/YYYY')}
+              

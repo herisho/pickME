@@ -4,18 +4,19 @@ var express = require('express');
 var ig = require('instagram-node').instagram();
 var path = require("path");
 var pug = require("pug");
+var moment = require("moment");
 
 // Create Express App
 var app = express();
 
 // Set Global Response Variables
-// app.locals.moment = require("moment");
+app.locals.moment = require("moment");
 
 // Static Files Path
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-// app.use("/", platform);
+// app.use("/", index);
 
 // View Engine Setup
 app.engine('pug', require('pug').__express)
@@ -36,14 +37,13 @@ app.get('/login', function(req, res){
 app.get('/authCallback', function(req, res){
   ig.authorize_user(req.query.code, igCallbackURI, function(err, result){
     if(err) res.send( err );
-    console.log('accessToken on "callback" => ', result.access_token);
+    // console.log('accessToken on "callback" => ', result.access_token);
     accessToken = result.access_token;
     res.redirect('/');
   });
 });
 
 app.get('/', function(req, res){
-  // console.log('accessToken on "\\" => ', accessToken);
   ig.use({
   access_token : accessToken
   });
@@ -53,7 +53,7 @@ app.get('/', function(req, res){
       console.log('error => ',err);
       res.send(err.body);
     }
-    // console.log('result => ',result)
+    // console.log('result => ',result);
     res.render('index', { pictures : result });
   });
 });
