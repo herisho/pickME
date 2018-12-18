@@ -1,0 +1,22 @@
+.navbar-fixed
+  nav
+    .nav-wrapper
+      a.container-center.left.margin-left-20.t-bold(href="/") 
+        | pick
+        img.margin-sides-5(src="/img/logo.png" alt="logo" height="40")
+        | me
+      ul.right.hide-on-med-and-down
+        //- form
+        //-   li
+        //-     input(name="search" required)
+        //-   li
+        //-     button(action="submit")
+        li
+          a.dropdown-trigger(href="#!" data-target="navDropdown") Name
+            i.material-icons.right arrow_drop_down
+  ul#navDropdown.dropdown-content
+    li
+      a(href="/") Profile
+    li.divider
+    li
+      a(href="/") Log Out

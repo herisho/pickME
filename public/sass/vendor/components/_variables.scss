@@ -163,7 +163,7 @@ $dropdown-item-height: 50px !default;
 // ==========================================================================
 
 // Text Inputs + Textarea
-$input-height: 2.5rem !default;
+$input-height: 3rem !default;
 $input-border-color: color("grey", "base") !default;
 $input-border: 1px solid $input-border-color !default;
 $input-background: #fff !default;
@@ -200,7 +200,7 @@ $select-option-hover: rgba(0,0,0,.08) !default;
 $select-option-focus: rgba(0,0,0,.08) !default;
 $select-option-selected: rgba(0,0,0,.03) !default;
 $select-padding: 5px !default;
-$select-radius: 6px !default;
+$select-radius: 2px !default;
 $select-disabled-color: rgba(0,0,0,.3) !default;
 
 // Switches

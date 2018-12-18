@@ -24,16 +24,16 @@ input[type=search]:not(.browser-default),
 textarea.materialize-textarea {
 
   // General Styles
-  // background-color: transparent;
+  background-color: transparent;
   border: none;
   border-bottom: $input-border;
-  border-radius: 6px;
+  border-radius: 0;
   outline: none;
   height: $input-height;
-  // width: 100%; 
+  width: 100%;
   font-size: $input-font-size;
   margin: $input-margin;
-  // padding: $input-padding;
+  padding: $input-padding;
   box-shadow: none;
   box-sizing: content-box;
   transition: box-shadow .3s, border .3s;
@@ -308,7 +308,7 @@ textarea.materialize-textarea {
 textarea {
   width: 100%;
   height: $input-height;
-  // background-color: transparent;
+  background-color: transparent;
 
   &.materialize-textarea {
     line-height: normal;

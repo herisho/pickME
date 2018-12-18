@@ -1,2 +1,8 @@
 /**********************************************/
 /**************** Global Classes **************/
+body {
+  background: nth($gray, 2);
+}
+nav {
+  background: nth($blue, 1);
+}

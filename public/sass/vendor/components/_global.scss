@@ -305,75 +305,63 @@ ul.staggered-list li {
   Media Query Classes
 **********************/
 .hide-on-small-only, .hide-on-small-and-down {
-  display: initial !important;
   @media #{$small-and-down} {
     display: none !important;
   }
 }
 .hide-on-med-and-down {
-  display: initial !important;
   @media #{$medium-and-down} {
     display: none !important;
   }
 }
 .hide-on-med-and-up {
-  display: initial !important;
   @media #{$medium-and-up} {
     display: none !important;
   }
 }
 .hide-on-med-only {
-  display: initial !important;
   @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
     display: none !important;
   }
 }
 .hide-on-large-only {
-  display: initial !important;
   @media #{$large-and-up} {
     display: none !important;
   }
 }
 .hide-on-extra-large-only {
-  display: initial !important;
   @media #{$extra-large-and-up} {
     display: none !important;
   }
 }
 .show-on-extra-large {
-  display: none !important;
   @media #{$extra-large-and-up} {
     display: block !important;
   }
 }
 .show-on-large {
-  display: none !important;
   @media #{$large-and-up} {
-    display: initial !important;
+    display: block !important;
   }
 }
 .show-on-medium {
-  display: none !important;
   @media only screen and (min-width: $small-screen) and (max-width: $medium-screen) {
-    display: initial !important;
+    display: block !important;
   }
 }
 .show-on-small {
-  display: none !important;
   @media #{$small-and-down} {
-    display: initial !important;
+    display: block !important;
   }
 }
 .show-on-medium-and-up {
-  display: none !important;
   @media #{$medium-and-up} {
-    display: initial !important;
+    display: block !important;
   }
 }
 .show-on-medium-and-down {
-  display: none !important;
   @media #{$medium-and-down} {
-    display: initial !important;
+    display: block !important;
   }
 }
 

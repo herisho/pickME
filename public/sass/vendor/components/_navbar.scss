@@ -198,7 +198,7 @@ nav {
   nav.nav-extended .nav-wrapper {
     min-height: $navbar-height;
   }
-  nav, nav a.sidenav-trigger,{
+  nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
     height: $navbar-height;
     line-height: $navbar-line-height;
   }

@@ -203,19 +203,19 @@
 // padding and margin
 .padding {
   &-all { @include setAttributeRange(padding, '', 'px', 0, 50, 5); }
-  &-top { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
-  &-bottom { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
-  &-left { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
-  &-right { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
+  &-top { @include setAttributeRange(padding-top, '', 'px', 0, 150, 5); }
+  &-bottom { @include setAttributeRange(padding-bottom, '', 'px', 0, 150, 5); }
+  &-left { @include setAttributeRange(padding-left, '', 'px', 0, 150, 5); }
+  &-right { @include setAttributeRange(padding-right, '', 'px', 0, 150, 5); }
   &-sides { @include setAttributeRange(padding, '0 ', 'px', 0, 100, 5); }
   &-z-auto { padding: 0 auto !important; }
 }
 .margin {
   &-all { @include setAttributeRange(margin, '', 'px', 0, 50, 5); }
-  &-top { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }
-  &-bottom { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }
-  &-left { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }
-  &-right { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }  
+  &-top { @include setAttributeRange(margin-top, '', 'px', 0, 150, 5); }
+  &-bottom { @include setAttributeRange(margin-bottom, '', 'px', 0, 150, 5); }
+  &-left { @include setAttributeRange(margin-left, '', 'px', 0, 150, 5); }
+  &-right { @include setAttributeRange(margin-right, '', 'px', 0, 150, 5); }  
   &-sides { @include setAttributeRange(margin, '0 ', 'px', 0, 100, 5); }
   &-z-auto { margin: 0 auto !important; }
 }

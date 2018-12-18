@@ -62,7 +62,7 @@ select {
     }
     position: relative;
     cursor: pointer;
-    // background-color: transparent;
+    background-color: transparent;
     border: none;
     border-bottom: $input-border;
     outline: none;
@@ -83,11 +83,8 @@ select {
     top: 0;
     bottom: 0;
     margin: auto 0;
-    z-index: 2;
-    fill: black;
-    color: black;
-    padding: .7rem .5rem 0 0;
-    font-size: 12px;
+    z-index: 0;
+    fill: rgba(0,0,0,.87);
   }
 
   & + label {
@@ -125,7 +122,7 @@ select:disabled {
 .select-dropdown li.disabled > span,
 .select-dropdown li.optgroup {
   color: $select-disabled-color;
-  // background-color: transparent;
+  background-color: transparent;
 }
 
 body.keyboard-focused {
