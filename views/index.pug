@@ -1,0 +1,19 @@
+extends _layout
+  
+block content
+  include _nav
+
+  #indexWrapper
+    .container
+      .row
+        each picture in pictures
+          .col.s3
+            a(href=picture.link target="_blank")
+              img.responsive-img(src=picture.images.standard_resolution.url)
+            .instagram-bar
+              .likes
+                span Likes:
+                  | #{picture.likes.count}
+              .comments
+                span Likes:
+                  | #{picture.comments.count}

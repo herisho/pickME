@@ -1,0 +1,29 @@
+doctype html
+html.no-js
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    
+    block title
+      title= title
+
+    block styles
+      link(rel='stylesheet' type="text/css" href='/css/vendor/reset.css')
+      link(rel='stylesheet' type="text/css" href='/css/vendor/materialize.css')      
+      link(rel='stylesheet' type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+      link(rel='stylesheet' type="text/css" href='/css/main.css')
+      //- link(rel="shortcut icon" href="/img/logo.ico")     
+    block additional_styles
+
+  body
+    main
+      block content
+    
+    block scripts
+      script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js" integrity="sha256-h0cGsrExGgcZtSZ/fRz4AwV+Nn6Urh/3v3jFRQ0w9dQ=" crossorigin="anonymous")
+      script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")      
+      script(type="text/javascript" src='/js/vendor/moment.min.js')
+      script(type="text/javascript" src='/js/main.js')
+    block additional_scripts

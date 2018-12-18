@@ -1,0 +1,18 @@
+{
+  "name": "pickme",
+  "version": "1.0.0",
+  "description": "Photo viewer application that fetches photos from Instagram",
+  "main": "index.js",
+  "scripts": {},
+  "author": "kevin@brounie.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "instagram-node": "^0.5.8",
+    "path": "^0.12.7",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

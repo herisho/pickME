@@ -1,0 +1,237 @@
+/***********************************/
+/************* mixins **************/
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform:     $property;
+  transform:         $property;
+}
+@mixin flex() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+@mixin calc($property, $calculation) {
+  /* Firefox */
+  #{$property}: -moz-calc(#{$calculation});
+  /* WebKit */
+  #{$property}: -webkit-calc(#{$calculation});
+  /* Opera */
+  #{$property}: -o-calc(#{$calculation});
+  /* Standard */
+  #{$property}: calc(#{$calculation});
+}
+@mixin crossBrowserCSS($property, $css){
+  /* Firefox */
+  #{$property}: -moz-#{$css};
+  /* WebKit */
+  #{$property}: -webkit-#{$css};
+  // Opera
+  #{$property}: -o-#{$css};
+  /* Standard */
+  #{$property}: #{$css};
+}
+@mixin crossBrowser($property, $css){
+  -webkit-#{$property}: $css;
+  -moz-#{$property}: $css;
+  -o-#{$property}: $css;
+  #{$property}: $css;
+}
+@mixin transition($transition...){
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
+}
+@mixin setAttributesTo($val, $attributes...){
+  @each $el in $attributes {
+    &-#{$el} { #{$el}: $val;}
+  }
+}
+@mixin setAttributeRange($attribute, $pre, $units, $start, $end, $jump: 1, $modifier: 1){
+  $i: $start;
+  @while $i <= $end {
+    &-#{$i} { #{$attribute}: #{$pre}#{$i * $modifier}#{$units}; }
+    $i: $i + $jump;
+  }
+}
+@mixin setAttributeValues($attribute, $values...){
+  @each $el in $values {
+    &-#{$el} { #{$attribute}: $el;}
+  }
+}
+
+/*****************************************/
+/************* quick-styles **************/
+.show-sm {
+  display: none;
+  @media #{$small-and-down} {display: block;}
+}
+.hide-sm {
+  display: block;
+  @media #{$small-and-down} {display: none;}
+}
+.cursor {
+  &-pointer {cursor: pointer;}
+}
+.flex {
+  @include flex;
+  &-center-items {
+    @include flex;
+    align-items: center;
+  }
+  &-center-content {
+    @include flex;
+    align-content: center;
+  }
+  &-center-perfect {
+    @include flex;
+    align-content: center;
+    align-items: center;
+  }
+  &-item {
+    &-grow { flex: 1 0 auto;}
+    &-no-grow { flex: 0 0 auto;}
+  }
+} 
+.container-center {
+  @include flex;
+  align-items: center;
+  justify-content: center;
+  &-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.display {
+  &-block { display: block;}
+  &-none { display: none;}
+  &-inline{ display: inline-block;}
+}
+.z {
+  @include setAttributesTo(0, left, right, top, bottom);
+  &-index { @include setAttributeRange(z-index, '', '', 0, 10); }
+}
+.m {
+  @include setAttributesTo(50%, left, right, top, bottom);
+}
+.overflow {
+  @include setAttributeValues(overflow, hidden, visible, scroll);
+  &-y {
+    @include setAttributeValues(overflow-y, hidden, visible, scroll);
+  }
+}
+.opacity { @include setAttributeRange(z-index, '', '', 0, 10, 1, 0.1); }
+
+// Background
+.b {
+  &-transparent { background: transparent; &:hover { background: transparent; } }
+  &-white { background: white; &:hover { background: white; } }
+  &-black { background: black; &:hover { background: black; } }
+  // &-blue {
+  //   @each $color in $blue {
+  //     &-#{$el} { #{$el}: $val;}
+  //   }
+  // }
+}
+
+// Text
+.t{
+  // Colors
+  &-transparent { color: transparent; }
+  &-white { color: white; }
+  &-black { color: black; }
+
+  // Weight
+  &-lightest { font-weight: $lightest }
+  &-lighter { font-weight: $lighter }
+  &-light { font-weight: $light }
+  &-regular { font-weight: $regular }
+  &-bold { font-weight: $bold }
+  &-bolder { font-weight: $bolder }
+  &-boldest { font-weight: $boldest }
+  
+  // Size
+  &-smallest { font-size: 0.7rem };
+  &-smaller { font-size: 0.85rem };
+  &-small { font-size: 1rem };
+  &-regular { font-size: 1.15rem };
+  &-big { font-size: 1.3rem };
+  &-bigger { font-size: 1.45rem };
+  &-biggest { font-size: 1.6rem };
+
+  // Align and transforms
+  &-justify { text-align: justify; }    
+  &-capitalize { text-transform: capitalize; }    
+  &-uppercase { text-transform: uppercase; }    
+  &-underlined { text-decoration: underline; }    
+  &-none { text-transform: none; }
+}
+
+// REMOVE ALL
+.no{
+  @include setAttributesTo(0 !important, margin, margin-left, margin-right, margin-top, margin-bottom);
+  @include setAttributesTo(0 !important, padding, padding-left, padding-right, padding-top, padding-bottom);
+  @include setAttributesTo(none !important, border, shadow);
+}
+
+// height and weight
+.height {
+  @include setAttributeRange(height, '', 'vh !important', 0, 100, 10);
+  &-vh { @include setAttributeRange(height, '', 'vh !important', 0, 100, 10); }
+  &-vw { @include setAttributeRange(height, '', 'vw !important', 0, 100, 10); }
+  &-max { @include setAttributeRange(max-height, '', 'px !important', 0, 1000, 50); }   
+  &-min { @include setAttributeRange(min-height, '', 'px !important', 0, 1000, 50); }   
+  &-p { @include setAttributeRange(height, '', '%', 0, 100, 5); }   
+  &-auto { height: auto !important; }
+}
+.width {
+  @include setAttributeRange(width, '', 'vh !important', 0, 100, 10);
+  &-vh { @include setAttributeRange(width, '', 'vh !important', 0, 100, 10); }
+  &-vw { @include setAttributeRange(width, '', 'vw !important', 0, 100, 10); }
+  &-max { @include setAttributeRange(max-width, '', 'px !important', 0, 1000, 50); }   
+  &-min { @include setAttributeRange(min-width, '', 'px !important', 0, 1000, 50); }  
+  &-p { @include setAttributeRange(width, '', '%', 0, 100, 5); }    
+  &-auto { width: auto !important; }
+}         
+.full {
+  @include setAttributesTo(100%, height, width);
+}
+
+// padding and margin
+.padding {
+  &-all { @include setAttributeRange(padding, '', 'px', 0, 50, 5); }
+  &-top { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
+  &-bottom { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
+  &-left { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
+  &-right { @include setAttributeRange(padding, '', 'px', 0, 150, 5); }
+  &-sides { @include setAttributeRange(padding, '0 ', 'px', 0, 100, 5); }
+  &-z-auto { padding: 0 auto !important; }
+}
+.margin {
+  &-all { @include setAttributeRange(margin, '', 'px', 0, 50, 5); }
+  &-top { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }
+  &-bottom { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }
+  &-left { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }
+  &-right { @include setAttributeRange(margin, '', 'px', 0, 150, 5); }  
+  &-sides { @include setAttributeRange(margin, '0 ', 'px', 0, 100, 5); }
+  &-z-auto { margin: 0 auto !important; }
+}
+
+// Border
+.rounded { @include setAttributeRange(border-radius, '', 'px', 0, 45, 3); }
+
+.position { @include setAttributeValues(position, relative, absolute, fixed); }
+
+.toast {
+  &-alert{
+    background: #BD1521;
+    border-radius: 20px;
+  }
+  &-success {
+    background: #88CE18;
+    border-radius: 20px;
+  }
+}
