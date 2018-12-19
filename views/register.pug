@@ -7,6 +7,9 @@ block content
       p.t-big Register your account
       form#registerForm.row
         .input-field.col.s12.no-margin-top.margin-bottom-10
+          label(for="name") Name
+          input#loginName.validate(type="text" required)
+        .input-field.col.s12.no-margin-top.margin-bottom-10
           label(for="email") E-mail
           input#loginUser.validate(type="email" required)
         .input-field.col.s12.no-margin
@@ -16,14 +19,17 @@ block content
           | Register
       p
         a.t-gray-1(href="/") Already have an account? Log In!
+      p.margin-top-20
+        a#loginOut.t-gray-1(href="#") [DEBUG] Log Out
 
 block additional_scripts
   script.
     firebase.auth().onAuthStateChanged(function(user) {
       window.user = user;
-      console.log('AuthStateChanged Flag');
       console.log('user => ',user);
     });
+    
+    var database = firebase.database();
 
     $("#registerForm").submit(function(e) {
       e.preventDefault();
@@ -31,7 +37,22 @@ block additional_scripts
       console.log('Login In...');
       var email = $("#loginUser").val();
       var password = $("#loginPass").val();
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
+        var newUID = firebase.auth().currentUser.uid;
+        console.log('Registered and Logged In...');
+        console.log('currentUID => ',newUID); 
+        if (newUID) {
+          var name = $("#loginName").val();
+          firebase.database().ref('users/' + newUID).set({
+            name: name,
+            email: email
+          });
+          window.location.href = "/home";
+        } else {
+            M.Toast.dismissAll();
+            M.toast({html: "Incorrect Fields", classes: 'toast-alert', displayLength: 3000});
+        }
+      }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -44,14 +65,4 @@ block additional_scripts
         console.log(error);
         // [END_EXCLUDE]
       });
-      var auth = firebase.auth();
-      var currentUser = auth.currentUser;
-      console.log('Registered and Logged In...');
-      console.log('currentUser => ',currentUser); 
-      if (currentUser) {
-        window.location.href = "/home";
-      } else {
-          M.Toast.dismissAll();
-          M.toast({html: "Incorrect Fields", classes: 'toast-alert', displayLength: 3000});
-      }      
     });

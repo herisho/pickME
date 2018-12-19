@@ -1,12 +1,12 @@
 // Dependencies
-var os  = require('os');
-var express = require('express');
+var os = require("os");
+var express = require("express");
 var path = require("path");
 var pug = require("pug");
 var moment = require("moment");
 
 // Routes
-var index = require('./routes/index_route');  
+var index = require("./routes/index_route");
 
 // Create Express App
 var app = express();
@@ -18,7 +18,7 @@ app.locals.moment = require("moment");
 app.use(express.static(path.join(__dirname, "public")));
 
 // View Engine Setup
-app.engine('pug', require('pug').__express)
+app.engine("pug", require("pug").__express);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
 });
 
 // Port
-var port = 8080;
+var port = 80;
 var server = app.listen(port, function() {
-    console.log('App running on port ' + port + '.');
+  console.log("App running on port " + port + ".");
 });

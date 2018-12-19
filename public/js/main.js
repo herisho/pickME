@@ -1,8 +1,8 @@
 // Functions
-function shareFB(img){
+function shareFB(img) {
   // FB.ui({
   //       method: 'feed',
-  //       link: "The link you want to share", 
+  //       link: "The link you want to share",
   //       picture: 'The picture url',
   //       name: "The name who will be displayed on the post",
   //       description: "The description who will be displayed"
@@ -33,11 +33,24 @@ function shareFB(img){
   //       }
   //   }
   // );
-} 
+}
 
 // On Ready
-$( document ).ready(function(){
+$(document).ready(function() {
   // Materialize Components Init
   $(".dropdown-trigger").dropdown();
-  $('.sidenav').sidenav();
+  $(".sidenav").sidenav();
+
+  // Listeners
+  $("#loginOut").click(function() {
+    firebase
+      .auth()
+      .signOut()
+      .then(function() {
+        console.log("Sign-out successful.");
+      })
+      .catch(function(error) {
+        console.log("An error happened on Log out.");
+      });
+  });
 });

@@ -16,6 +16,8 @@ block content
           | Log In
       p
         a.t-gray-1(href="/register") Not registered? Do it now!
+      p.margin-top-20
+        a#loginOut.t-gray-1(href="#") [DEBUG] Log Out
 
 block additional_scripts
   script.
@@ -33,7 +35,19 @@ block additional_scripts
       var password = $("#loginPass").val();
       // Sign in with email and pass.
       // [START authwithemail]
-      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      firebase.auth().signInWithEmailAndPassword(email, password).then(function(){
+        var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+        var auth = firebase.auth();
+        var currentUser = auth.currentUser;
+        console.log('Logged In...');
+        console.log('currentUser => ',currentUser); 
+        if (currentUser) {
+          window.location.href = "/home";
+        } else {
+            M.Toast.dismissAll();
+            M.toast({html: "Incorrect user or password", classes: 'toast-alert', displayLength: 3000});
+        }
+      }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -47,17 +61,4 @@ block additional_scripts
         document.getElementById('quickstart-sign-in').disabled = false;
         // [END_EXCLUDE]
       });
-      // [END authwithemail]
-      var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-      var auth = firebase.auth();
-      var currentUser = auth.currentUser;
-      console.log('Logged In...');
-      console.log('currentUser => ',currentUser); 
-      if (currentUser) {
-        window.location.href = "/home";
-      } else {
-          M.Toast.dismissAll();
-          M.toast({html: "Incorrect user or password", classes: 'toast-alert', displayLength: 3000});
-      }      
-
     });
