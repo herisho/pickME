@@ -2,8 +2,17 @@ var express = require("express");
 // var moment = require("moment");
 var ig = require("instagram-node").instagram();
 var router = express.Router();
+var admin = require("firebase-admin");
+var auth = require("../middleware/auth");
 
 var keys = require("../config/keys");
+var serviceAccount = require("../middleware/serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://pickme-brounie-eval.firebaseio.com"
+});
+
 ig.use({
   client_id: keys.igClientID,
   client_secret: keys.igClientSecret
@@ -42,13 +51,33 @@ var mainController = {
 
 var loginController = {
   index: function(req, res, next) {
+    console.log("Current Session UID =>", req.session.UID);
     var context = {
       title: "pickME | login"
     };
     res.render("login", context);
   },
-  login: function(req, res, next) {},
-  logout: function(req, res, next) {},
+  login: function(req, res, next) {
+    var idToken = req.body.idToken;
+    admin
+      .auth()
+      .verifyIdToken(idToken)
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid;
+        console.log("Obtained UID...");
+        // console.log("uid =>", uid);
+        req.session.UID = uid;
+        console.log("uid =>", req.session.UID);
+        res.send(200);
+      })
+      .catch(function(error) {
+        res.send(401);
+      });
+  },
+  logout: function(req, res, next) {
+    req.session.UID = null;
+    res.redirect("/");
+  },
   igAuth: function(req, res, next) {
     res.redirect(
       ig.get_authorization_url(igCallbackURI, {
@@ -68,6 +97,7 @@ var loginController = {
 
 var userController = {
   create: function(req, res, next) {
+    console.log("Current Session UID =>", req.session.UID);
     var context = {
       title: "pickME | register"
     };
@@ -78,13 +108,15 @@ var userController = {
 };
 
 // loginController
-router.get("/", loginController.index);
+router.get("/", auth.isNotLogged, loginController.index);
+router.post("/login", auth.isNotLogged, loginController.login);
+router.get("/logout", auth.isLogged, loginController.logout);
 
 // mainController
-router.get("/home", mainController.index);
+router.get("/home", auth.isLogged, mainController.index);
 
 // userController
-router.get("/register", userController.create);
+router.get("/register", auth.isNotLogged, userController.create);
 
 // IG Auth
 router.get("/igAuth", loginController.igAuth);

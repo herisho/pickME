@@ -4,7 +4,7 @@ block content
   .section.container-center
     .login-container.center.width-max-350.b-white.rounded-12.padding-all-20.padding-top-40.padding-bottom-40.z-depth-2
       img.margin-bottom-30(src="/img/logo.png")
-      p.t-big Register your account
+      p.t-big.margin-bottom-20 Register your account
       form#registerForm.row
         .input-field.col.s12.no-margin-top.margin-bottom-10
           label(for="name") Name
@@ -20,49 +20,4 @@ block content
       p
         a.t-gray-1(href="/") Already have an account? Log In!
       p.margin-top-20
-        a#loginOut.t-gray-1(href="#") [DEBUG] Log Out
-
-block additional_scripts
-  script.
-    firebase.auth().onAuthStateChanged(function(user) {
-      window.user = user;
-      console.log('user => ',user);
-    });
-    
-    var database = firebase.database();
-
-    $("#registerForm").submit(function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log('Login In...');
-      var email = $("#loginUser").val();
-      var password = $("#loginPass").val();
-      firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
-        var newUID = firebase.auth().currentUser.uid;
-        console.log('Registered and Logged In...');
-        console.log('currentUID => ',newUID); 
-        if (newUID) {
-          var name = $("#loginName").val();
-          firebase.database().ref('users/' + newUID).set({
-            name: name,
-            email: email
-          });
-          window.location.href = "/home";
-        } else {
-            M.Toast.dismissAll();
-            M.toast({html: "Incorrect Fields", classes: 'toast-alert', displayLength: 3000});
-        }
-      }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
-        // [END_EXCLUDE]
-      });
-    });
+        a#loginOut.t-gray-1(href="/logout") [DEBUG] Log Out
