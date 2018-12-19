@@ -61,9 +61,31 @@
     &-#{$el} { #{$attribute}: $el;}
   }
 }
+@mixin setTextColor($color_base, $color_name){  
+  &-#{$color_name} {
+    $i: 1;
+    @each $color in $color_base {
+      &-#{$i} { color: $color;}
+      $i: $i+1;
+    }
+  }
+}
+@mixin setBackgroundColor($color_base, $color_name){  
+  &-#{$color_name} {
+    $i: 1;
+    @each $color in $color_base {
+      &-#{$i} { background: $color;}
+      $i: $i+1;
+    }
+  }
+}
 
 /*****************************************/
 /************* quick-styles **************/
+.section {
+  min-height: 100vh
+}
+
 .show-sm {
   display: none;
   @media #{$small-and-down} {display: block;}
@@ -130,11 +152,8 @@
   &-transparent { background: transparent; &:hover { background: transparent; } }
   &-white { background: white; &:hover { background: white; } }
   &-black { background: black; &:hover { background: black; } }
-  // &-blue {
-  //   @each $color in $blue {
-  //     &-#{$el} { #{$el}: $val;}
-  //   }
-  // }
+  @include setBackgroundColor($gray, gray);
+  @include setBackgroundColor($blue, blue);
 }
 
 // Text
@@ -143,6 +162,8 @@
   &-transparent { color: transparent; }
   &-white { color: white; }
   &-black { color: black; }
+  @include setTextColor($gray, gray);
+  @include setTextColor($blue, blue);
 
   // Weight
   &-lightest { font-weight: $lightest }
@@ -179,7 +200,7 @@
 
 // height and weight
 .height {
-  @include setAttributeRange(height, '', 'vh !important', 0, 100, 10);
+  @include setAttributeRange(height, '', '!important', 0, 100, 10);
   &-vh { @include setAttributeRange(height, '', 'vh !important', 0, 100, 10); }
   &-vw { @include setAttributeRange(height, '', 'vw !important', 0, 100, 10); }
   &-max { @include setAttributeRange(max-height, '', 'px !important', 0, 1000, 50); }   
@@ -188,7 +209,7 @@
   &-auto { height: auto !important; }
 }
 .width {
-  @include setAttributeRange(width, '', 'vh !important', 0, 100, 10);
+  @include setAttributeRange(width, '', '!important', 0, 100, 10);
   &-vh { @include setAttributeRange(width, '', 'vh !important', 0, 100, 10); }
   &-vw { @include setAttributeRange(width, '', 'vw !important', 0, 100, 10); }
   &-max { @include setAttributeRange(max-width, '', 'px !important', 0, 1000, 50); }   

@@ -2,7 +2,23 @@ var express = require("express");
 // var moment = require("moment");
 var ig = require('instagram-node').instagram();
 var router = express.Router();
+
+var auth = require("../middleware/auth");
 var keys = require("../config/keys");
+// var firebase = require('firebase');
+//   require('firebase/auth');
+//   require('firebase/database');
+
+// // Initialize Firebase for the application
+// var config = {
+//   apiKey: "AIzaSyACT9N3NFxO2pKdloRP_nEK7sajPPLIMmU",
+//   authDomain: "pickme-brounie-eval.firebaseapp.com",
+//   databaseURL: "https://pickme-brounie-eval.firebaseio.com",
+//   projectId: "pickme-brounie-eval",
+//   storageBucket: "pickme-brounie-eval.appspot.com",
+//   messagingSenderId: "270154486543"
+// };
+// firebase.initializeApp(config); 
 
 // Config Instagram API
 ig.use({
@@ -12,10 +28,13 @@ ig.use({
 var igCallbackURI = 'http://localhost:8080/authCallback';
 
 var mainController = {
-  login: function(req, res, next) {
-
-  },
   index: function(req, res, next) {
+    var context = {
+      title: "pickME | home",
+    };
+    res.render("home", context);
+  },
+  home: function(req, res, next) {
     ig.use({
     access_token : accessToken
     });
@@ -35,6 +54,12 @@ var mainController = {
 }
 
 var loginController = {
+  index: function(req, res, next) {
+    var context = {
+      title: "pickME | login",
+    };
+    res.render("login", context);
+  },
   login: function(req, res, next) {
 
   },
@@ -56,6 +81,10 @@ var loginController = {
 
 var userController = {
   create: function(req, res, next) {
+    var context = {
+      title: "pickME | register",
+    };
+    res.render("register", context);
 
   },
   insert: function(req, res, next) {
@@ -66,12 +95,17 @@ var userController = {
   },
 }
 
-// Main Controller
-router.get('/', mainController.login);
-router.get('/home', mainController.index);
+// loginController
+router.get('/', auth.isNotLogged, loginController.index);
+
+// mainController
+router.get('/home', auth.isLogged, mainController.index);
+
+// userController
+router.get('/register', auth.isNotLogged, userController.create);
 
 // IG Auth
-router.get('/igAuth', loginController.igAuth);
-router.get('/igAuthCallback', loginController.igAuthCallback);
+router.get('/igAuth', auth.isLogged, loginController.igAuth);
+router.get('/igAuthCallback', auth.isLogged, loginController.igAuthCallback);
 
 module.exports = router;

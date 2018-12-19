@@ -13,9 +13,3 @@ $small-and-up: "only screen and (min-width : #{$xs-up})" !default
 $small-only: "only screen and (min-width : #{$xs-up}) and (max-width : #{$sm})" !default
 $small-and-down: "only screen and (max-width : #{$sm})" !default
 $xsmall-only: "only screen and (max-width : #{$xs})" !default
-
-/******************************************/
-@media only screen and (max-width: 993px)
-  //padding: 0
-@media only screen and (max-width: 600px)
-  //padding: 0

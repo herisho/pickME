@@ -1,0 +1,67 @@
+extends _layout
+
+block content
+  .section.container-center
+    .login-container.center.width-max-350.b-white.rounded-12.padding-all-20.padding-top-40.padding-bottom-40.z-depth-2
+      img.margin-bottom-30(src="/img/logo.png")
+      p.t-big Log in to your account
+      form#loginForm.row
+        .input-field.col.s12.no-margin-top.margin-bottom-10
+          label(for="email") E-mail
+          input#loginUser.validate(type="email" required)
+        .input-field.col.s12.no-margin
+          label(for="password") Password
+          input#loginPass.validate(type="password" required)
+        button#loginSubmit.margin-top-30.btn-large.b-blue-1.waves-effect.waves-light.col.s8.offset-s2(type="submit") 
+          | Log In
+      p
+        a.t-gray-1(href="/register") Not registered? Do it now!
+
+block additional_scripts
+  script.
+    firebase.auth().onAuthStateChanged(function(user) {
+      window.user = user;
+      console.log('AuthStateChanged Flag');
+      console.log('user => ',user);
+      // Step 1:
+      //  If no user, sign in anonymously with firebase.auth().signInAnonymously()
+      //  If there is a user, log out out user details for debugging purposes.
+    });
+
+    $("#loginForm").submit(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Login In...');
+      var email = $("#loginUser").val();
+      var password = $("#loginPass").val();
+      // Sign in with email and pass.
+      // [START authwithemail]
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+        document.getElementById('quickstart-sign-in').disabled = false;
+        // [END_EXCLUDE]
+      });
+      // [END authwithemail]
+      var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+      var auth = firebase.auth();
+      var currentUser = auth.currentUser;
+      console.log('Logged...');
+      console.log('credential => ',credential);
+      console.log('auth => ',auth);
+      console.log('currentUser => ',currentUser);
+      
+      // Step 2
+      //  Get a credential with firebase.auth.emailAuthProvider.credential(emailInput.value, passwordInput.value)
+      //  If there is no current user, log in with auth.signInWithCredential(credential)
+      //  If there is a current user an it's anonymous, atttempt to link the new user with firebase.auth().currentUser.link(credential) 
+      //  The user link will fail if the user has already been created, so catch the error and sign in.
+    });
