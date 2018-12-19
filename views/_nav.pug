@@ -1,19 +1,22 @@
 .navbar-fixed
   nav
     form#searchForm.nav-wrapper(method="post" action="/search")
-      a.container-center.left.margin-left-20.t-bold(href="/") 
+      a.container-center.left.margin-left-20.t-bold(href="/home") 
         | pick
         img.margin-sides-5(src="/img/logo.png" alt="logo" height="40")
         | me
-      ul.right.hide-on-med-and-down
-        li.width-min-150
+      ul.right
+        li.width-min-150.padding-left-10.padding-right-10.hide-on-med-and-down(style="border-left: 2px solid rgba(255,255,255,0.6)")
           .input-field
             input#searchInput.autocomplete.searchInput(name="search" placeholder="Search contacts..." required)
-        li.margin-left-20
+        li.padding-left-10.padding-right-50.hide-on-med-and-down(style="border-right: 2px solid rgba(255,255,255,0.6)")
           button.btn.waves-effect.waves-light.t-bolder.rounded-6.b-green-1(type="submit") Search
             i.material-icons.right(style="line-height: 36px; height: 36px") search
-        li
-          a.dropdown-trigger(href="#!" data-target="navDropdown")=session.user.name
+        li.hide-on-large-only
+          a.btn.waves-effect.waves-light.t-bolder.rounded-6.b-green-1.modal-trigger(href="#modal-search") Search
+            i.material-icons.right(style="line-height: 36px; height: 36px") search
+        li.padding-left-10.padding-right-10
+          a.dropdown-trigger.t-bold(href="#!" data-target="navDropdown")=session.user.name
             i.material-icons.right arrow_drop_down
   ul#navDropdown.dropdown-content
     li
@@ -21,3 +24,13 @@
     li.divider
     li
       a#loginOut(href="/logout") Log Out
+
+#modal-search.modal.overflow-visible.width-max-400.rounded-12
+    .modal-content.center
+      img(src="/img/logo.png" height="100")
+      p.margin-top-20.margin-bottom-20.t-bold Search your contacts!      
+      form#searchForm.row(method="post" action="/search")
+        .col.s12.input-field        
+          input.autocomplete(name="search" placeholder="Search contacts..." required)
+        button.col.s8.offset-s2.btn.waves-effect.waves-light.t-bolder.rounded-6.b-green-1(type="submit") Search
+          i.material-icons.right(style="line-height: 36px; height: 36px") search       

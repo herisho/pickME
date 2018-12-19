@@ -48,6 +48,7 @@ $(document).ready(function() {
   // Materialize Components Init
   $(".dropdown-trigger").dropdown();
   $(".sidenav").sidenav();
+  $(".modal").modal();
 
   // Listeners
   $("#registerForm").submit(function(e) {

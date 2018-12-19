@@ -6,9 +6,9 @@ block content
   #wrapper.section.padding-all-20
     .container.b-white.rounded-12.padding-all-20
       p.t-bigger.t-bolder.margin-bottom-20 Username:&nbsp;
-        span.t-bigger #{session.user.name}
+        span.t-bigger #{profile.name}
       p.t-big.t-bolder.margin-bottom-20 Email:&nbsp;
-        span.t-big #{session.user.email}
+        span.t-big #{profile.email}
       if myprofile
         p.center
           a.btn-large.blue.rounded(href="/igAuth") Sync your recent photos from IG!
