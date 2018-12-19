@@ -8,3 +8,5 @@ node_modules
 *.html
 # keys.js
 keys.js
+# firebase-admin service account key
+serviceAccountKey.json
