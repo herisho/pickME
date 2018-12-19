@@ -5,6 +5,12 @@ block content
 
   #wrapper.section.padding-all-20
     .container.b-white.rounded-12.padding-all-20
+      if !myprofile
+        .row
+          if follow
+            a.btn.b-green-1.right(href="/unfollow/"+profile.uid) unfollow
+          else
+            a.btn.b-green-1.right(href="/follow/"+profile.uid) follow
       p.t-bigger.t-bolder.margin-bottom-20 Username:&nbsp;
         span.t-bigger #{profile.name}
       p.t-big.t-bolder.margin-bottom-20 Email:&nbsp;
@@ -15,16 +21,16 @@ block content
       p.t-bigger.t-bolder.margin-top-20.center Photos
       .row.margin-top-40
         each picture in photos
-          .col.l3.m6.s12.height-min-350
+          .col.l3.m6.s12.height-min-400
             //- a(href=picture.link target="_blank")
             img.responsive-img.image-card(src=picture.src alt="Share on Facebook")
             .instagram-bar
+              .caption.margin-bottom-5.margin-top-5
+                span.t-bold Caption:&nbsp;
+                | #{picture.caption}
               .caption
-                span Caption:
-                  | #{picture.caption}
-              .caption
-                span Created At:
-                  | #{moment.unix(picture.createdAt).format('MM/DD/YYYY')}
+                span.t-bold Created At:&nbsp;
+                | #{moment.unix(picture.createdAt).format('DD/MM/YYYY')}
 
 block additional_scripts
   script.

@@ -25,6 +25,20 @@ var mainController = {
       title: "pickME | home",
       session: req.session
     };
+    // Get updated user.follow
+    // var db = admin.database();
+    // var ref = db.ref("users/" + req.session.UID);
+    // ref.once("value", function(data) {
+    //   var user = data.val();
+    //   console.log("follow: ", user.follow);
+    //   if (user.follow != undefined) {
+    //     for (var fol in user.follow) {
+    //       if(user.follow[fol] == true)
+    //     }
+    //   } else {
+    //     res.render("home", context);
+    //   }
+    // });
     res.render("home", context);
   },
   profile: function(req, res, next) {
@@ -50,14 +64,32 @@ var mainController = {
         context.photos = photos;
         if (uid == req.session.UID) {
           context.profile = req.session.user;
+          context.profile.uid = uid;
           context.myprofile = true;
           res.render("profile", context);
         } else {
+          // Get updated user.follow
+          var db = admin.database();
+          var ref = db.ref("users/" + req.session.UID);
+          ref.once("value", function(data) {
+            var user = data.val();
+            console.log("follow: ", user.follow);
+            if (user.follow != undefined) {
+              if (user.follow[uid] == true) {
+                context.follow = true;
+              } else {
+                context.follow = false;
+              }
+            } else {
+              context.follow = false;
+            }
+          });
           // Fetch user data
           var usersRef = db.ref("users/" + uid);
           usersRef.once("value", function(data) {
             var user = data.val();
             context.profile = user;
+            context.profile.uid = uid;
             context.myprofile = false;
             res.render("profile", context);
           });
@@ -96,7 +128,7 @@ var photoController = {
       });
       var db = admin.database();
       var photosRef = db.ref("photos/");
-      photosRef.set(photos);
+      photosRef.update(photos);
       res.redirect("/profile/" + req.session.UID);
       // console.log("result => ", result);
       // context.photos = result;
@@ -197,8 +229,30 @@ var userController = {
     };
     res.render("register", context);
   },
-  insert: function(req, res, next) {},
-  update: function(req, res, next) {}
+  follow: function(req, res, next) {
+    // follow uid
+    var uid = req.params.uid;
+    console.log("Following: ", uid);
+    var db = admin.database();
+    var followRef = db.ref("users/" + req.session.UID + "/follow");
+    var update = {};
+    update[uid] = true;
+    followRef.update(update);
+
+    res.redirect(req.get("referer"));
+  },
+  unfollow: function(req, res, next) {
+    // follow uid
+    var uid = req.params.uid;
+    console.log("Unfollowing: ", uid);
+    var db = admin.database();
+    var followRef = db.ref("users/" + req.session.UID + "/follow");
+    var update = {};
+    update[uid] = false;
+    followRef.update(update);
+
+    res.redirect(req.get("referer"));
+  }
 };
 
 // loginController
@@ -212,6 +266,8 @@ router.get("/profile/:uid", auth.isLogged, mainController.profile);
 
 // userController
 router.get("/register", auth.isNotLogged, userController.create);
+router.get("/follow/:uid", auth.isLogged, userController.follow);
+router.get("/unfollow/:uid", auth.isLogged, userController.unfollow);
 router.post("/search", auth.isLogged, userController.search);
 
 // photoController
