@@ -17,7 +17,7 @@ ig.use({
   client_id: keys.igClientID,
   client_secret: keys.igClientSecret
 });
-var igCallbackURI = "http://localhost:8080/authCallback";
+var igCallbackURI = "http://localhost:80/igAuthCallback";
 
 var mainController = {
   index: function(req, res, next) {
@@ -27,7 +27,48 @@ var mainController = {
     };
     res.render("home", context);
   },
-  home: function(req, res, next) {
+  profile: function(req, res, next) {
+    var context = {
+      title: "pickME | profile",
+      session: req.session
+    };
+    var uid = req.params.uid;
+    // Fetch user photos
+    var db = admin.database();
+    var photosRef = db.ref("photos/");
+    var photos = [];
+    photosRef
+      .orderByChild("createdBy")
+      .equalTo(uid)
+      .once("value", function(photosData) {
+        photosData.forEach(function(data) {
+          var photo = data.val();
+          photos.push(photo);
+        });
+      })
+      .then(function() {
+        context.photos = photos;
+        if (uid == req.session.UID) {
+          context.profile = req.session.user;
+          context.myprofile = true;
+          res.render("profile", context);
+        } else {
+          // Fetch user data
+          var usersRef = db.ref("users/" + uid);
+          usersRef.once("value", function(data) {
+            var user = data.val();
+            context.profile = user;
+            context.myprofile = false;
+            res.render("profile", context);
+          });
+        }
+      });
+  }
+};
+
+var photoController = {
+  insert: function(req, res, next) {
+    // Insert photos to DB
     ig.use({
       access_token: accessToken
     });
@@ -43,11 +84,25 @@ var mainController = {
         console.log("error => ", err);
         res.send(err.body);
       }
-      console.log("result => ", result);
-      res.render("index", { pictures: result });
+      var photos = {};
+      result.forEach(function(picture) {
+        photos[picture.id] = {
+          src: picture.images.standard_resolution.url,
+          link: picture.link,
+          caption: picture.caption.text,
+          createdAt: picture.created_time,
+          createdBy: req.session.UID
+        };
+      });
+      var db = admin.database();
+      var photosRef = db.ref("photos/");
+      photosRef.set(photos);
+      res.redirect("/profile/" + req.session.UID);
+      // console.log("result => ", result);
+      // context.photos = result;
+      // res.render("index", context);
     });
-  },
-  profile: function(req, res, next) {}
+  }
 };
 
 var loginController = {
@@ -84,8 +139,8 @@ var loginController = {
             console.log("Fetched data...");
             usersData.forEach(function(data) {
               var user = data.val();
-              console.log("userId =>", data.key);
-              console.log("user =>", user);
+              // console.log("userId =>", data.key);
+              // console.log("user =>", user);
               contacts.push(user.name);
             });
           })
@@ -115,7 +170,7 @@ var loginController = {
       if (err) res.send(err);
       // console.log('accessToken on "callback" => ', result.access_token);
       accessToken = result.access_token;
-      res.redirect("/");
+      res.redirect("/set-photos");
     });
   }
 };
@@ -139,9 +194,13 @@ router.get("/logout", auth.isLogged, loginController.logout);
 
 // mainController
 router.get("/home", auth.isLogged, mainController.index);
+router.get("/profile/:uid", auth.isLogged, mainController.profile);
 
 // userController
 router.get("/register", auth.isNotLogged, userController.create);
+
+// photoController
+router.get("/set-photos", auth.isLogged, photoController.insert);
 
 // IG Auth
 router.get("/igAuth", loginController.igAuth);

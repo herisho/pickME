@@ -2,3 +2,28 @@ extends _layout
   
 block content
   include _nav
+
+  #wrapper.section.padding-all-20
+    .container.b-white.rounded-12.padding-all-20
+      p.t-bigger.t-bolder.margin-bottom-20 Username:&nbsp;
+        span.t-bigger #{session.user.name}
+      p.t-big.t-bolder.margin-bottom-20 Email:&nbsp;
+        span.t-big #{session.user.email}
+      if myprofile
+        p.center
+          a.btn-large.blue.rounded(href="/igAuth") Sync your recent photos from IG!
+      p.t-bigger.t-bolder.margin-top-20.center Photos
+      .row.margin-top-40
+        each picture in photos
+          .col.s3.height-min-350
+            //- a(href=picture.link target="_blank")
+            img.responsive-img.image-card(src=picture.src alt="Share on Facebook")
+            .instagram-bar
+              .caption
+                span Caption:
+                  | #{picture.caption}
+              .caption
+                span Created At:
+                  | #{moment.unix(picture.createdAt).format('MM/DD/YYYY')}
+              
+              
