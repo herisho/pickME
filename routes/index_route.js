@@ -176,6 +176,20 @@ var loginController = {
 };
 
 var userController = {
+  search: function(req, res, next) {
+    var name = req.body.search;
+    /// Fetch user by name
+    var db = admin.database();
+    var usersRef = db.ref("users/");
+    usersRef
+      .orderByChild("name")
+      .equalTo(name)
+      .once("value", function(usersData) {
+        usersData.forEach(function(data) {
+          res.redirect("/profile/" + data.key);
+        });
+      });
+  },
   create: function(req, res, next) {
     console.log("Current Session UID =>", req.session.UID);
     var context = {
@@ -198,12 +212,13 @@ router.get("/profile/:uid", auth.isLogged, mainController.profile);
 
 // userController
 router.get("/register", auth.isNotLogged, userController.create);
+router.post("/search", auth.isLogged, userController.search);
 
 // photoController
 router.get("/set-photos", auth.isLogged, photoController.insert);
 
 // IG Auth
-router.get("/igAuth", loginController.igAuth);
-router.get("/igAuthCallback", loginController.igAuthCallback);
+router.get("/igAuth", auth.isLogged, loginController.igAuth);
+router.get("/igAuthCallback", auth.isLogged, loginController.igAuthCallback);
 
 module.exports = router;

@@ -1,16 +1,17 @@
 .navbar-fixed
   nav
-    .nav-wrapper
+    form#searchForm.nav-wrapper(method="post" action="/search")
       a.container-center.left.margin-left-20.t-bold(href="/") 
         | pick
         img.margin-sides-5(src="/img/logo.png" alt="logo" height="40")
         | me
       ul.right.hide-on-med-and-down
-        //- form
-        //-   li
-        //-     input(name="search" required)
-        //-   li
-        //-     button(action="submit")
+        li.width-min-150
+          .input-field
+            input#searchInput.autocomplete.searchInput(name="search" placeholder="Search contacts..." required)
+        li.margin-left-20
+          button.btn.waves-effect.waves-light.t-bolder.rounded-6.b-green-1(type="submit") Search
+            i.material-icons.right(style="line-height: 36px; height: 36px") search
         li
           a.dropdown-trigger(href="#!" data-target="navDropdown")=session.user.name
             i.material-icons.right arrow_drop_down

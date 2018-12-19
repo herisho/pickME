@@ -4,7 +4,7 @@ block content
   .section.container-center
     .login-container.center.width-max-350.b-white.rounded-12.padding-all-20.padding-top-40.padding-bottom-40.z-depth-2
       img.margin-bottom-30(src="/img/logo.png")
-      p.t-big.margin-bottom-20 Register your account
+      p.t-big.margin-bottom-20.t-bold Register your account
       form#registerForm.row
         .input-field.col.s12.no-margin-top.margin-bottom-10
           label(for="name") Name
@@ -18,6 +18,6 @@ block content
         button#loginSubmit.margin-top-30.btn-large.b-blue-1.waves-effect.waves-light.col.s8.offset-s2(type="submit") 
           | Register
       p
-        a.t-gray-1(href="/") Already have an account? Log In!
+        a.t-gray-1.t-bold(href="/") Already have an account? Log In!
       //- p.margin-top-20
       //-   a#loginOut.t-gray-1(href="/logout") [DEBUG] Log Out

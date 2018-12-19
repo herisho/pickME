@@ -15,7 +15,7 @@ block content
       p.t-bigger.t-bolder.margin-top-20.center Photos
       .row.margin-top-40
         each picture in photos
-          .col.s3.height-min-350
+          .col.l3.m6.s12.height-min-350
             //- a(href=picture.link target="_blank")
             img.responsive-img.image-card(src=picture.src alt="Share on Facebook")
             .instagram-bar
@@ -25,5 +25,16 @@ block content
               .caption
                 span Created At:
                   | #{moment.unix(picture.createdAt).format('MM/DD/YYYY')}
-              
+
+block additional_scripts
+  script.
+    $(document).ready(function(){  
+      var contacts = {};
+      "#{session.contacts}".split(",").forEach(function(contact) {
+        contacts[contact] = null;
+      });
+      $('.autocomplete').autocomplete({
+        data: contacts,
+      });
+    });              
               

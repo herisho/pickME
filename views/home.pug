@@ -5,5 +5,15 @@ block content
 
   #indexWrapper
     h4 WELCOME!
-              
-              
+
+block additional_scripts
+  script.
+    $(document).ready(function(){  
+      var contacts = {};
+      "#{session.contacts}".split(",").forEach(function(contact) {
+        contacts[contact] = null;
+      });
+      $('.autocomplete').autocomplete({
+        data: contacts,
+      });
+    });

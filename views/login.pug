@@ -4,7 +4,7 @@ block content
   .section.container-center
     .login-container.center.width-max-350.b-white.rounded-12.padding-all-20.padding-top-40.padding-bottom-40.z-depth-2
       img.margin-bottom-30(src="/img/logo.png")
-      p.t-big.margin-bottom-20 Log in to your account
+      p.t-big.margin-bottom-20.t-bold Log in to your account
       form#loginForm.row
         .input-field.col.s12.no-margin-top.margin-bottom-10
           label(for="email") E-mail
@@ -15,6 +15,6 @@ block content
         button#loginSubmit.margin-top-30.btn-large.b-blue-1.waves-effect.waves-light.col.s8.offset-s2(type="submit") 
           | Log In
       p
-        a.t-gray-1(href="/register") Not registered? Do it now!
+        a.t-gray-1.t-bold(href="/register") Not registered? Do it now!
       //- p.margin-top-20
       //-   a#loginOut.t-gray-1(href="logout") [DEBUG] Log Out
