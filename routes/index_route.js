@@ -22,7 +22,8 @@ var igCallbackURI = "http://localhost:8080/authCallback";
 var mainController = {
   index: function(req, res, next) {
     var context = {
-      title: "pickME | home"
+      title: "pickME | home",
+      session: req.session
     };
     res.render("home", context);
   },
@@ -64,11 +65,35 @@ var loginController = {
       .verifyIdToken(idToken)
       .then(function(decodedToken) {
         var uid = decodedToken.uid;
-        console.log("Obtained UID...");
-        // console.log("uid =>", uid);
-        req.session.UID = uid;
-        console.log("uid =>", req.session.UID);
-        res.send(200);
+
+        // Get user data
+        var db = admin.database();
+        var ref = db.ref("users/" + uid);
+        ref.once("value", function(data) {
+          var user = data.val();
+          req.session.UID = data.key;
+          req.session.user = user;
+        });
+
+        // Get all contacts
+        var ref = db.ref("users/");
+        var contacts = [];
+        // Fetch once
+        ref
+          .once("value", function(usersData) {
+            console.log("Fetched data...");
+            usersData.forEach(function(data) {
+              var user = data.val();
+              console.log("userId =>", data.key);
+              console.log("user =>", user);
+              contacts.push(user.name);
+            });
+          })
+          .then(function() {
+            req.session.contacts = contacts;
+            console.log("contacts =>", req.session.contacts);
+            res.sendStatus(200);
+          });
       })
       .catch(function(error) {
         res.send(401);

@@ -12,11 +12,11 @@
         //-   li
         //-     button(action="submit")
         li
-          a.dropdown-trigger(href="#!" data-target="navDropdown") Name
+          a.dropdown-trigger(href="#!" data-target="navDropdown")=session.user.name
             i.material-icons.right arrow_drop_down
   ul#navDropdown.dropdown-content
     li
-      a(href="/") Profile
+      a(href="/profile/"+session.UID) Profile
     li.divider
     li
       a#loginOut(href="/logout") Log Out
