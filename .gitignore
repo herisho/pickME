@@ -6,3 +6,5 @@ node_modules
 .code-workspace
 # Ignore rendered .html by Prepros
 *.html
+# keys.js
+keys.js

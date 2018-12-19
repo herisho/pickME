@@ -8,8 +8,8 @@ block content
       .row
         each picture in pictures
           .col.s3
-            a(href=picture.link target="_blank")
-              img.responsive-img(src=picture.images.standard_resolution.url)
+            //- a(href=picture.link target="_blank")
+            img.responsive-img.image-card(src=picture.images.standard_resolution.url alt="Share on Facebook")
             .instagram-bar
               .likes
                 span Likes:
@@ -23,4 +23,5 @@ block content
               .caption
                 span Created At:
                   | #{moment.unix(picture.created_time).format('MM/DD/YYYY')}
+              
               
