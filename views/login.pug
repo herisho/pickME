@@ -23,9 +23,6 @@ block additional_scripts
       window.user = user;
       console.log('AuthStateChanged Flag');
       console.log('user => ',user);
-      // Step 1:
-      //  If no user, sign in anonymously with firebase.auth().signInAnonymously()
-      //  If there is a user, log out out user details for debugging purposes.
     });
 
     $("#loginForm").submit(function(e) {
@@ -54,14 +51,13 @@ block additional_scripts
       var credential = firebase.auth.EmailAuthProvider.credential(email, password);
       var auth = firebase.auth();
       var currentUser = auth.currentUser;
-      console.log('Logged...');
-      console.log('credential => ',credential);
-      console.log('auth => ',auth);
-      console.log('currentUser => ',currentUser);
-      
-      // Step 2
-      //  Get a credential with firebase.auth.emailAuthProvider.credential(emailInput.value, passwordInput.value)
-      //  If there is no current user, log in with auth.signInWithCredential(credential)
-      //  If there is a current user an it's anonymous, atttempt to link the new user with firebase.auth().currentUser.link(credential) 
-      //  The user link will fail if the user has already been created, so catch the error and sign in.
+      console.log('Logged In...');
+      console.log('currentUser => ',currentUser); 
+      if (currentUser) {
+        window.location.href = "/home";
+      } else {
+          M.Toast.dismissAll();
+          M.toast({html: "Incorrect user or password", classes: 'toast-alert', displayLength: 3000});
+      }      
+
     });
